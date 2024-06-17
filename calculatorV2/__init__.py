@@ -2,6 +2,7 @@
 from calculatorV2.commands import CommandHandler
 from calculatorV2.commands.Addition import AdditionCommand
 from calculatorV2.commands.Exit import ExitCommand
+from calculatorV2.commands.Menu import MenuCommand
 
 
 class Calculator:
@@ -11,12 +12,11 @@ class Calculator:
     def start(self):
         # List of Commands
         self.command_handler.register_command("add", AdditionCommand())
-
         self.command_handler.register_command("exit", ExitCommand())
+        self.command_handler.register_command("menu", MenuCommand(self.command_handler))
 
         # Print available commands
-        commands = self.command_handler.get_commands()
-        print("Available commands:", "\t\t".join(commands))
+        self.command_handler.execute_command("menu")
 
         print("Type 'exit' to exit.")
         while True:  #REPL Read, Evaluate, Print, Loop
