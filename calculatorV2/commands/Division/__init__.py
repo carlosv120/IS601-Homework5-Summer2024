@@ -15,7 +15,8 @@ class DivisionCommand(Command):
             num1_decimal, num2_decimal = map(Decimal, [num1, num2])
 
             if num2_decimal == 0:
-                raise ValueError("Cannot divide by zero")
+                print("Cannot divide by zero. You are in the main menu.")
+                return
 
             result = num1_decimal / num2_decimal
 
@@ -23,10 +24,6 @@ class DivisionCommand(Command):
 
         except InvalidOperation:
             print(f"Invalid number input: {num1} or {num2} is not a valid number. You are in the main menu.")
-        
-        except ValueError as ve:
-            print(ve)
-            raise ve
         
         except Exception as e:
             print(f"An error occurred: {e}")
