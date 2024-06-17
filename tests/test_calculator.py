@@ -2,7 +2,6 @@
 
 import pytest
 from calculatorV2 import Calculator
-from calculatorV2.commands import Command
 
 def test_app_start_exit_command(capfd, monkeypatch):
     """Test that the REPL exits correctly on 'exit' command."""

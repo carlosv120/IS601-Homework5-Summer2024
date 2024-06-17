@@ -14,6 +14,9 @@ class Calculator:
 
         self.command_handler.register_command("exit", ExitCommand())
 
+        # Print available commands
+        commands = self.command_handler.get_commands()
+        print("Available commands:", "\t\t".join(commands))
 
         print("Type 'exit' to exit.")
         while True:  #REPL Read, Evaluate, Print, Loop
