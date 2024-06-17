@@ -1,20 +1,28 @@
-'''Testing the actual calculator'''
+"""Testing the Calculator App"""
 
+import pytest
 from calculatorV2 import Calculator
+from calculatorV2.commands import Command
 
-def test_addition():
-    '''Test Addition'''
-    assert Calculator.addition(2, 2) == 4
+def test_app_start_exit_command(capfd, monkeypatch):
+    """Test that the REPL exits correctly on 'exit' command."""
+    # Simulate user entering 'exit'
+    monkeypatch.setattr('builtins.input', lambda _: 'exit')
+    calculator = Calculator()
+    with pytest.raises(SystemExit) as e:
+        calculator.start()
+    assert e.type == SystemExit
 
-def test_substraction():
-    '''Test Substraction'''
-    assert Calculator.subtraction(2, 2) == 0
+def test_app_start_unknown_command(capfd, monkeypatch):
+    """Test how the REPL handles an unknown command before exiting."""
+    # Simulate user entering an unknown command followed by 'exit'
+    inputs = iter(['unknown_command', 'exit'])
+    monkeypatch.setattr('builtins.input', lambda _: next(inputs))
 
-def test_multiplication():
-    '''Test Multiplication'''
-    assert Calculator.multiplication(2, 2) == 4
+    calculator = Calculator()
 
-def test_division():
-    '''Test Division'''
-    assert Calculator.division(2, 2) == 1
-    
+    with pytest.raises(SystemExit):
+        calculator.start()
+
+    captured = capfd.readouterr()
+    assert "No such command: unknown_command" in captured.out

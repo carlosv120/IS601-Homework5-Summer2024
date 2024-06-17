@@ -1,28 +1,20 @@
 
-from calculatorV2.calculation import Calculation
-from calculatorV2.operations import add, subtract, multiply, divide
+from calculatorV2.commands import CommandHandler
+from calculatorV2.commands.Addition import AdditionCommand
+from calculatorV2.commands.Exit import ExitCommand
+
 
 class Calculator:
-    @staticmethod
-    def addition(num1,num2):
+    def __init__(self): # Constructor
+        self.command_handler = CommandHandler()
 
-        calculation = Calculation(num1, num2, add)
-        return calculation.get_result()
-    
-    @staticmethod
-    def subtraction(num1,num2):
+    def start(self):
+        # List of Commands
+        self.command_handler.register_command("add", AdditionCommand())
 
-        calculation = Calculation(num1, num2, subtract)
-        return calculation.get_result()
-    
-    @staticmethod
-    def multiplication(num1,num2):
+        self.command_handler.register_command("exit", ExitCommand())
 
-        calculation = Calculation(num1, num2, multiply)
-        return calculation.get_result()
-    
-    @staticmethod
-    def division(num1,num2):
-        
-        calculation = Calculation(num1, num2, divide)
-        return calculation.get_result()
+
+        print("Type 'exit' to exit.")
+        while True:  #REPL Read, Evaluate, Print, Loop
+            self.command_handler.execute_command(input(">>> ").strip())
