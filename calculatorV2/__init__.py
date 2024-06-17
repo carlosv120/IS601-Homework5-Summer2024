@@ -3,6 +3,7 @@ from calculatorV2.commands import CommandHandler
 from calculatorV2.commands.Addition import AdditionCommand
 from calculatorV2.commands.Exit import ExitCommand
 from calculatorV2.commands.Menu import MenuCommand
+from calculatorV2.commands.Subtraction import SubtractionCommand
 
 
 class Calculator:
@@ -12,6 +13,7 @@ class Calculator:
     def start(self):
         # List of Commands
         self.command_handler.register_command("add", AdditionCommand())
+        self.command_handler.register_command("subtract", SubtractionCommand())
         self.command_handler.register_command("exit", ExitCommand())
         self.command_handler.register_command("menu", MenuCommand(self.command_handler))
 

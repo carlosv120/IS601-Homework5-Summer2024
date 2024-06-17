@@ -1,4 +1,4 @@
-'''Testing Commands'''
+'''Testing Addition'''
 from calculatorV2.commands.Addition import AdditionCommand
 
 def test_add_success(capfd):
