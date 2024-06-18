@@ -1,5 +1,5 @@
 '''Testing Addition'''
-from calculatorV2.commands.Addition import AdditionCommand
+from calculatorV2.plugins.Addition import AdditionCommand
 
 def test_add_success(capfd):
     """Test the addition command with valid inputs."""

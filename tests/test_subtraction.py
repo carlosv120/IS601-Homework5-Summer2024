@@ -1,5 +1,5 @@
 '''Testing Subtraction'''
-from calculatorV2.commands.Subtraction import SubtractionCommand
+from calculatorV2.plugins.Subtraction import SubtractionCommand
 
 def test_subtract_success(capfd):
     """Test the subtraction command with valid inputs."""
