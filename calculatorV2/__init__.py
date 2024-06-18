@@ -1,29 +1,43 @@
-
-from calculatorV2.commands import CommandHandler
-from calculatorV2.commands.Addition import AdditionCommand
-from calculatorV2.commands.Division import DivisionCommand
-from calculatorV2.commands.Exit import ExitCommand
-from calculatorV2.commands.Menu import MenuCommand
-from calculatorV2.commands.Multiplication import MultiplicationCommand
-from calculatorV2.commands.Subtraction import SubtractionCommand
-
+import pkgutil
+import importlib
+from calculatorV2.commands import CommandHandler, Command
+from calculatorV2.plugins.Menu import MenuCommand
 
 class Calculator:
-    def __init__(self): # Constructor
+    def __init__(self): 
         self.command_handler = CommandHandler()
+        self.plugins = []  # List to store the names of loaded plugins
+
+    def load_plugins(self):
+        # Dynamically load all plugins in the plugins directory
+        plugins_package = 'calculatorV2.plugins'
+        for _, plugin_name, is_pkg in pkgutil.iter_modules([plugins_package.replace('.', '/')]):
+            if is_pkg:  # Ensure it's a package
+                plugin_module = importlib.import_module(f'{plugins_package}.{plugin_name}')
+                for item_name in dir(plugin_module):
+                    item = getattr(plugin_module, item_name)
+                    try:
+                        if issubclass(item, Command):  # Assuming a BaseCommand class exists
+                            self.command_handler.register_command(plugin_name.lower(), item())
+                            self.plugins.append(plugin_name)  # Add the plugin name to the list
+                    except TypeError:
+                        continue  # If item is not a class or unrelated class, just ignore
 
     def start(self):
-        # List of Commands
-        self.command_handler.register_command("add", AdditionCommand())
-        self.command_handler.register_command("subtract", SubtractionCommand())
-        self.command_handler.register_command("multiply", MultiplicationCommand())
-        self.command_handler.register_command("divide", DivisionCommand())
-        self.command_handler.register_command("exit", ExitCommand())
-        self.command_handler.register_command("menu", MenuCommand(self.command_handler))
+        # Load plugins
+        self.load_plugins()
+        
+        # Add the Menu plugin to the list and register the menu command
+        self.plugins.append("Menu")  
+        self.command_handler.register_command("menu", MenuCommand(self.plugins))
 
-        # Print available commands
+        # Print available plugins
         self.command_handler.execute_command("menu")
 
         print("Type 'exit' to exit.")
-        while True:  #REPL Read, Evaluate, Print, Loop
-            self.command_handler.execute_command(input(">>> ").strip())
+        while True:  # REPL Read, Evaluate, Print, Loop
+            user_input = input(">>> ").strip().lower()
+            if user_input == 'exit':
+                break
+            else:
+                self.command_handler.execute_command(user_input)
