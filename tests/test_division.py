@@ -1,5 +1,5 @@
 '''Testing DivisionCommand'''
-from calculatorV2.commands.Division import DivisionCommand
+from calculatorV2.plugins.Division import DivisionCommand
 
 def test_divide_invalid_number(capfd):
     """Test the division command with one valid and one invalid input."""

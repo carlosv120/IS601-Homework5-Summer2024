@@ -1,5 +1,5 @@
 '''Testing Multiplication'''
-from calculatorV2.commands.Multiplication import MultiplicationCommand
+from calculatorV2.plugins.Multiplication import MultiplicationCommand
 
 def test_multiply_success(capfd):
     """Test the multiplication command with valid inputs."""
