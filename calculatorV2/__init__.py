@@ -37,7 +37,4 @@ class Calculator:
         print("Type 'exit' to exit.")
         while True:  # REPL Read, Evaluate, Print, Loop
             user_input = input(">>> ").strip().lower()
-            if user_input == 'exit':
-                break
-            else:
-                self.command_handler.execute_command(user_input)
+            self.command_handler.execute_command(user_input)

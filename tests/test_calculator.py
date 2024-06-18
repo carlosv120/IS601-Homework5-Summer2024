@@ -17,11 +17,8 @@ def test_app_start_unknown_command(capfd, monkeypatch):
     # Simulate user entering an unknown command followed by 'exit'
     inputs = iter(['unknown_command', 'exit'])
     monkeypatch.setattr('builtins.input', lambda _: next(inputs))
-
     calculator = Calculator()
-
     with pytest.raises(SystemExit):
         calculator.start()
-
     captured = capfd.readouterr()
     assert "No such command: unknown_command" in captured.out
